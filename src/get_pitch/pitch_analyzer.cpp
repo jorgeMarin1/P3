@@ -11,8 +11,7 @@ namespace upc {
   void PitchAnalyzer::autocorrelation(const vector<float> &x, vector<float> &r) const {
 
     for (unsigned int l = 0; l < r.size(); ++l) {
-  		/// \TODO Compute the autocorrelation r[l]
-        /// \DONE Autocorrelación calculadan
+  		/// \DONE Compute the autocorrelation r[l]
         r[l] = 0.0f;
 
         for (unsigned int n = l; n < x.size(); n++) {
