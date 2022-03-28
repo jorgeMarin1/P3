@@ -58,7 +58,7 @@ namespace upc {
     /// \TODO Implement a rule to decide whether the sound is voiced or not.
     /// * You can use the standard features (pot, r1norm, rmaxnorm),
     ///   or compute and use other ones.
-    return true;
+    return false;
   }
 
   float PitchAnalyzer::compute_pitch(vector<float> & x) const {
@@ -83,6 +83,12 @@ namespace upc {
 	///    - The lag corresponding to the maximum value of the pitch.
     ///	   .
 	/// In either case, the lag should not exceed that of the minimum value of the pitch.
+
+    for (iR = iRMax = r.begin() + npitch_min; iR < r.begin() + npitch_max; iR++) {
+        if (*iR > *iRMax) {
+            iRMax = iR;
+        }
+    }
 
     unsigned int lag = iRMax - r.begin();
 
