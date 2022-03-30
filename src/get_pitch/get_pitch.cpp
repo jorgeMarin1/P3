@@ -26,7 +26,8 @@ Usage:
 
 Options:
     -m FLOAT, --umaxnorm FLOAT  Umbral del máximo de la autocorrelación normalizada [default: 0.45]
-    -n FLOAT, --umaxr1 FLOAT Umbral de r1norm [default: 0.7]
+    -n FLOAT, --umaxr1 FLOAT Umbral de r1norm [default: 2.3]
+    -p FLOAT, --umaxpot FLOAT Umbral potencia [default: 3]
     -h, --help  Show this screen
     --version   Show the version of the project
 
@@ -50,6 +51,7 @@ int main(int argc, const char *argv[]) {
 	std::string output_txt = args["<output-txt>"].asString();
     float umaxnorm = stof(args["--umaxnorm"].asString());
     float umaxr1 = stof(args["--umaxr1"].asString());
+    float umaxpot = stof(args["--umaxpot"].asString());
 
   // Read input sound file
   unsigned int rate;
@@ -63,7 +65,7 @@ int main(int argc, const char *argv[]) {
   int n_shift = rate * FRAME_SHIFT;
 
   // Define analyzer
-  PitchAnalyzer analyzer(n_len, rate, umaxnorm, umaxr1, PitchAnalyzer::RECT, 50, 500);
+  PitchAnalyzer analyzer(n_len, rate, umaxnorm, umaxr1, umaxpot, PitchAnalyzer::RECT, 50, 500);
 
   /// \TODO
   /// Preprocess the input signal in order to ease pitch estimation. For instance,
