@@ -50,11 +50,11 @@ namespace upc {
 
   public:
     PitchAnalyzer(	unsigned int fLen,			///< Frame length in samples
-					unsigned int sFreq,			///< Sampling rate in Hertzs
-                    float umaxnorm,             ///< Umbral del máximo de la autocorrelación normalizada
+					unsigned int sFreq,			          ///< Sampling rate in Hertzs
+          float umaxnorm,                   ///< Umbral del máximo de la autocorrelación normalizada
 					Window w=PitchAnalyzer::HAMMING,	///< Window type
-					float min_F0 = MIN_F0,		///< Pitch range should be restricted to be above this value
-					float max_F0 = MAX_F0		///< Pitch range should be restricted to be below this value
+					float min_F0 = MIN_F0,		        ///< Pitch range should be restricted to be above this value
+					float max_F0 = MAX_F0		          ///< Pitch range should be restricted to be below this value
 				 )
 	{
       frameLen = fLen;
