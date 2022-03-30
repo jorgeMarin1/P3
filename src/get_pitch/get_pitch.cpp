@@ -25,9 +25,9 @@ Usage:
     get_pitch --version
 
 Options:
-    -m FLOAT, --umaxnorm FLOAT  Umbral del máximo de la autocorrelación normalizada [default: 0.45]
-    -n FLOAT, --umaxr1 FLOAT Umbral de r1norm [default: 2.3]
-    -p FLOAT, --umaxpot FLOAT Umbral potencia [default: 3]
+    -m FLOAT, --umaxnorm FLOAT  Umbral del máximo de la autocorrelación normalizada [default: 0.445]
+    -n FLOAT, --umaxr1 FLOAT  Umbral de r1norm [default: 0.25]
+    -p FLOAT, --umaxpot FLOAT  Umbral potencia [default: 12]
     -h, --help  Show this screen
     --version   Show the version of the project
 
