@@ -25,12 +25,13 @@ namespace upc {
     void set_window(Window type); ///< pre-compute window
 
   private:
-    std::vector<float> window; ///< precomputed window
-    unsigned int frameLen, ///< length of frame (in samples). Has to be set in the constructor call
-      samplingFreq, ///< sampling rate (in samples per second). Has to be set in the constructor call
-      npitch_min, ///< minimum value of pitch period, in samples
-      npitch_max; ///< maximum value of pitch period, in samples
-    float m_umaxnorm;   ///< Umbral del máximo de la autocorrelación normalizada
+    std::vector<float> window;  ///< precomputed window
+    unsigned int frameLen,      ///< length of frame (in samples). Has to be set in the constructor call
+      samplingFreq,             ///< sampling rate (in samples per second). Has to be set in the constructor call
+      npitch_min,               ///< minimum value of pitch period, in samples
+      npitch_max;               ///< maximum value of pitch period, in samples
+    float m_umaxnorm;           ///< Umbral del máximo de la autocorrelación normalizada
+    float n_umaxr1;              ///< Umbral de r1norm
  
 	///
 	/// Computes correlation from lag=0 to r.size()
@@ -52,6 +53,7 @@ namespace upc {
     PitchAnalyzer(	unsigned int fLen,			///< Frame length in samples
 					unsigned int sFreq,			          ///< Sampling rate in Hertzs
           float umaxnorm,                   ///< Umbral del máximo de la autocorrelación normalizada
+          float umaxr1,                     ///< Umbral de r1norm
 					Window w=PitchAnalyzer::HAMMING,	///< Window type
 					float min_F0 = MIN_F0,		        ///< Pitch range should be restricted to be above this value
 					float max_F0 = MAX_F0		          ///< Pitch range should be restricted to be below this value
@@ -60,6 +62,7 @@ namespace upc {
       frameLen = fLen;
       samplingFreq = sFreq;
       m_umaxnorm = umaxnorm;
+      n_umaxr1 = umaxr1;
       set_f0_range(min_F0, max_F0);
       set_window(w);
     }
