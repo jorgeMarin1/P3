@@ -33,7 +33,14 @@ namespace upc {
 
     switch (win_type) {
     case HAMMING:
-      /// \TODO Implement the Hamming window
+      /// \DONE Implement the Hamming window
+      static const float alpha = 25.0f / 46.0f;
+      static const float beta = 0.5f * (1 - alpha);
+
+      for (unsigned int i = 0; i < frameLen; i++) {
+        window[i] = alpha - 2*beta*cos(2*M_PI*i / (frameLen - 1));
+      }
+
       break;
     case RECT:
     default:
