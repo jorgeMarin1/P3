@@ -16,11 +16,11 @@ namespace upc {
   ///
   class PitchAnalyzer {
   public:
-	/// Wndow type
+    /// Wndow type
     enum Window {
-		RECT, 						///< Rectangular window
-		HAMMING						///< Hamming window
-	};
+        RECT, 						///< Rectangular window
+        HAMMING						///< Hamming window
+    };
 
     void set_window(Window type); ///< pre-compute window
 
@@ -34,33 +34,33 @@ namespace upc {
     float n_umaxr1;             ///< Umbral de r1norm
     float p_umaxpot;            ///<Umbral de máximo de la potencia
  
-	///
-	/// Computes correlation from lag=0 to r.size()
-	///
+    ///
+    /// Computes correlation from lag=0 to r.size()
+    ///
     void autocorrelation(const std::vector<float> &x, std::vector<float> &r) const;
 
-	///
-	/// Returns the pitch (in Hz) of input frame x
-	///
+    ///
+    /// Returns the pitch (in Hz) of input frame x
+    ///
     float compute_pitch(std::vector<float> & x) const;
-	
-	///
-	/// Returns true is the frame is unvoiced
-	///
+    
+    ///
+    /// Returns true is the frame is unvoiced
+    ///
     bool unvoiced(float pot, float r1norm, float rmaxnorm) const;
 
 
   public:
-    PitchAnalyzer(	unsigned int fLen,			///< Frame length in samples
-					unsigned int sFreq,			          ///< Sampling rate in Hertzs
-          float umaxnorm,                   ///< Umbral del máximo de la autocorrelación normalizada
-          float umaxr1,                     ///< Umbral de r1norm
-          float umaxpot,                    ///< Umbral maximo potencia
-					Window w=PitchAnalyzer::HAMMING,	///< Window type
-					float min_F0 = MIN_F0,		        ///< Pitch range should be restricted to be above this value
-					float max_F0 = MAX_F0		          ///< Pitch range should be restricted to be below this value
-				 )
-	{
+    PitchAnalyzer(	unsigned int fLen,			        ///< Frame length in samples
+                unsigned int sFreq,			            ///< Sampling rate in Hertzs
+                    float umaxnorm,                     ///< Umbral del máximo de la autocorrelación normalizada
+                    float umaxr1,                       ///< Umbral de r1norm
+                    float umaxpot,                      ///< Umbral maximo potencia
+                    Window w=PitchAnalyzer::HAMMING,    ///< Window type
+                    float min_F0 = MIN_F0,		        ///< Pitch range should be restricted to be above this value
+                    float max_F0 = MAX_F0		        ///< Pitch range should be restricted to be below this value
+                 )
+    {
       frameLen = fLen;
       samplingFreq = sFreq;
       m_umaxnorm = umaxnorm;
@@ -70,9 +70,9 @@ namespace upc {
       set_window(w);
     }
 
-	///
+    ///
     /// Operator (): computes the pitch for the given vector x
-	///
+    ///
     float operator()(const std::vector<float> & _x) const {
       if (_x.size() != frameLen)
         return -1.0F;
@@ -81,10 +81,10 @@ namespace upc {
       return compute_pitch(x);
     }
 
-	///
+    ///
     /// Operator (): computes the pitch for the given "C" vector (float *).
     /// N is the size of the vector pointer by pt.
-	///
+    ///
     float operator()(const float * pt, unsigned int N) const {
       if (N != frameLen)
         return -1.0F;
@@ -94,9 +94,9 @@ namespace upc {
       return compute_pitch(x);
     }
 
-	///
+    ///
     /// Operator (): computes the pitch for the given vector, expressed by the begin and end iterators
-	///
+    ///
     float operator()(std::vector<float>::const_iterator begin, std::vector<float>::const_iterator end) const {
 
       if (end-begin != frameLen)
@@ -107,9 +107,9 @@ namespace upc {
       return compute_pitch(x);
     }
     
-	///
+    ///
     /// Sets pitch range: takes min_F0 and max_F0 in Hz, sets npitch_min and npitch_max in samples
-	///
+    ///
     void set_f0_range(float min_F0, float max_F0);
   };
 }

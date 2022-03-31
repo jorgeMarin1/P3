@@ -11,7 +11,7 @@ namespace upc {
   void PitchAnalyzer::autocorrelation(const vector<float> &x, vector<float> &r) const {
 
     for (unsigned int l = 0; l < r.size(); ++l) {
-  		/// \DONE Compute the autocorrelation r[l]
+          /// \DONE Compute the autocorrelation r[l]
         r[l] = 0.0f;
 
         for (unsigned int n = l; n < x.size(); n++) {
@@ -83,12 +83,12 @@ namespace upc {
     vector<float>::const_iterator iR = r.begin(), iRMax = iR;
 
     /// \TODO 
-	/// Find the lag of the maximum value of the autocorrelation away from the origin.<br>
-	/// Choices to set the minimum value of the lag are:
-	///    - The first negative value of the autocorrelation.
-	///    - The lag corresponding to the maximum value of the pitch.
+    /// Find the lag of the maximum value of the autocorrelation away from the origin.<br>
+    /// Choices to set the minimum value of the lag are:
+    ///    - The first negative value of the autocorrelation.
+    ///    - The lag corresponding to the maximum value of the pitch.
     ///	   .
-	/// In either case, the lag should not exceed that of the minimum value of the pitch.
+    /// In either case, the lag should not exceed that of the minimum value of the pitch.
 
     for (iR = iRMax = r.begin() + npitch_min; iR < r.begin() + npitch_max; iR++) {
         if (*iR > *iRMax) {

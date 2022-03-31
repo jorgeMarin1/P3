@@ -39,16 +39,16 @@ Arguments:
 )";
 
 int main(int argc, const char *argv[]) {
-	/// \TODO 
-	///  Modify the program syntax and the call to **docopt()** in order to
-	///  add options and arguments to the program.
+    /// \TODO 
+    ///  Modify the program syntax and the call to **docopt()** in order to
+    ///  add options and arguments to the program.
     std::map<std::string, docopt::value> args = docopt::docopt(USAGE,
         {argv + 1, argv + argc},	// array of arguments, without the program name
         true,    // show help if requested
         "2.0");  // version string
 
-	std::string input_wav = args["<input-wav>"].asString();
-	std::string output_txt = args["<output-txt>"].asString();
+    std::string input_wav = args["<input-wav>"].asString();
+    std::string output_txt = args["<output-txt>"].asString();
     float umaxnorm = stof(args["--umaxnorm"].asString());
     float umaxr1 = stof(args["--umaxr1"].asString());
     float umaxpot = stof(args["--umaxpot"].asString());
