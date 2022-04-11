@@ -25,9 +25,10 @@ Usage:
     get_pitch --version
 
 Options:
-    -m FLOAT, --umaxnorm FLOAT  Umbral del máximo de la autocorrelación normalizada [default: 0.445]
-    -n FLOAT, --umaxr1 FLOAT  Umbral de r1norm [default: 0.25]
-    -p FLOAT, --umaxpot FLOAT  Umbral potencia [default: 12]
+    -m FLOAT, --umaxnorm FLOAT      Umbral del máximo de la autocorrelación normalizada [default: 0.445]
+    -n FLOAT, --umaxr1 FLOAT        Umbral de r1norm [default: 0.25]
+    -p FLOAT, --umaxpot FLOAT       Umbral potencia [default: 12]
+    -L INT, --median-length INT     Longitud del filtro de mediana [default: 3]
     -h, --help  Show this screen
     --version   Show the version of the project
 
@@ -52,6 +53,7 @@ int main(int argc, const char *argv[]) {
     float umaxnorm = stof(args["--umaxnorm"].asString());
     float umaxr1 = stof(args["--umaxr1"].asString());
     float umaxpot = stof(args["--umaxpot"].asString());
+    int median_length = stoi(args["--median-length"].asString());
 
   // Read input sound file
   unsigned int rate;
@@ -79,9 +81,33 @@ int main(int argc, const char *argv[]) {
     f0.push_back(f);
   }
 
-  /// \TODO
-  /// Postprocess the estimation in order to supress errors. For instance, a median filter
-  /// or time-warping may be used.
+    /// \DONE
+    /// Postprocess the estimation in order to supress errors. For instance, a
+    /// **median filter** or time-warping may be used.
+
+    // Aplicar filtro de mediana de longitud median_length:
+    // Se crea un vector result donde se iran guardando los resultados, para
+    // que el filtro no se recursivo. Una vez calculado se copia el vector
+    // result a f0.
+    const int after = (median_length - 1) / 2;
+    const int before = (median_length - 1) / 2;
+
+    vector<float> result(f0.size());
+    vector<float> tmp(median_length);
+    vector<float>::iterator it_f0;
+
+    copy(f0.begin(), f0.end(), result.begin());
+
+    int i = before - 1;
+    for (it_f0 = f0.begin() + before - 1; it_f0 < f0.end() - after; it_f0++) {
+        copy(it_f0 - before, it_f0 + after + 1, tmp.begin());
+        sort(tmp.begin(), tmp.end());
+
+        result[i] = tmp[(median_length - 1) / 2];
+
+        i++;
+    }
+    copy(result.begin(), result.end(), f0.begin());
 
   // Write f0 contour into the output file
   ofstream os(output_txt);
