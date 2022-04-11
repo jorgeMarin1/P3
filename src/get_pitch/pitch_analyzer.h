@@ -7,8 +7,8 @@
 #include <algorithm>
 
 namespace upc {
-  const float MIN_F0 = 50.0F;    ///< Minimum value of pitch in Hertzs
-  const float MAX_F0 = 500.0F; ///< Maximum value of pitch in Hertzs
+  const float MIN_F0 = 50.0F;   ///< Minimum value of pitch in Hertzs
+  const float MAX_F0 = 500.0F;  ///< Maximum value of pitch in Hertzs
 
   ///
   /// PitchAnalyzer: class that computes the pitch (in Hz) from a signal frame.
@@ -18,8 +18,8 @@ namespace upc {
   public:
     /// Wndow type
     enum Window {
-        RECT, 						///< Rectangular window
-        HAMMING						///< Hamming window
+        RECT,       ///< Rectangular window
+        HAMMING     ///< Hamming window
     };
 
     void set_window(Window type); ///< pre-compute window
@@ -51,14 +51,14 @@ namespace upc {
 
 
   public:
-    PitchAnalyzer(	unsigned int fLen,			        ///< Frame length in samples
-                unsigned int sFreq,			            ///< Sampling rate in Hertzs
+    PitchAnalyzer(  unsigned int fLen,                  ///< Frame length in samples
+                    unsigned int sFreq,                 ///< Sampling rate in Hertzs
                     float umaxnorm,                     ///< Umbral del máximo de la autocorrelación normalizada
                     float umaxr1,                       ///< Umbral de r1norm
                     float umaxpot,                      ///< Umbral maximo potencia
                     Window w=PitchAnalyzer::HAMMING,    ///< Window type
-                    float min_F0 = MIN_F0,		        ///< Pitch range should be restricted to be above this value
-                    float max_F0 = MAX_F0		        ///< Pitch range should be restricted to be below this value
+                    float min_F0 = MIN_F0,              ///< Pitch range should be restricted to be above this value
+                    float max_F0 = MAX_F0               ///< Pitch range should be restricted to be below this value
                  )
     {
       frameLen = fLen;

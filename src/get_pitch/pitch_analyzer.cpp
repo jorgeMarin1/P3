@@ -87,7 +87,7 @@ namespace upc {
     /// Choices to set the minimum value of the lag are:
     ///    - The first negative value of the autocorrelation.
     ///    - The lag corresponding to the maximum value of the pitch.
-    ///	   .
+    ///    
     /// In either case, the lag should not exceed that of the minimum value of the pitch.
 
     for (iR = iRMax = r.begin() + npitch_min; iR < r.begin() + npitch_max; iR++) {
