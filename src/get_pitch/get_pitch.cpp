@@ -29,6 +29,7 @@ Options:
     -n FLOAT, --umaxr1 FLOAT        Umbral de r1norm [default: 0.25]
     -p FLOAT, --umaxpot FLOAT       Umbral potencia [default: 12]
     -L INT, --median-length INT     Longitud del filtro de mediana [default: 3]
+    -H, --hamming                   Use the Hamming window
     -h, --help  Show this screen
     --version   Show the version of the project
 
@@ -54,6 +55,7 @@ int main(int argc, const char *argv[]) {
     float umaxr1 = stof(args["--umaxr1"].asString());
     float umaxpot = stof(args["--umaxpot"].asString());
     int median_length = stoi(args["--median-length"].asString());
+    bool use_hamming = args["--hamming"].asBool();
 
   // Read input sound file
   unsigned int rate;
@@ -66,9 +68,15 @@ int main(int argc, const char *argv[]) {
   int n_len = rate * FRAME_LEN;
   int n_shift = rate * FRAME_SHIFT;
 
-  // Define analyzer
-  PitchAnalyzer analyzer(n_len, rate, umaxnorm, umaxr1, umaxpot, PitchAnalyzer::RECT, MIN_F0, MAX_F0);
-
+    // Define analyzer
+    PitchAnalyzer::Window window;
+    if (use_hamming) {
+        window = PitchAnalyzer::Window::HAMMING;
+    } else {
+        window = PitchAnalyzer::Window::RECT;
+    }
+    PitchAnalyzer analyzer(n_len, rate, umaxnorm, umaxr1, umaxpot, window, MIN_F0, MAX_F0);
+    
   /// \TODO
   /// Preprocess the input signal in order to ease pitch estimation. For instance,
   /// central-clipping or low pass filtering may be used.
