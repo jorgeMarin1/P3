@@ -87,7 +87,7 @@ int main(int argc, const char *argv[]) {
 
   vector<float>::iterator iX;
 
-  for(iX= x.begin(); iX < x.end(); it++){
+  for(iX= x.begin(); iX < x.end(); iX++){
 
       if(*iX > max){
           max = *iX;
@@ -96,7 +96,7 @@ int main(int argc, const char *argv[]) {
 
   Xth = 0.3 * max;
 
-  for(iX= x.begin(); iX < x.end(); it++){
+  for(iX= x.begin(); iX < x.end(); iX++){
 
       if(*iX > Xth){
           *iX = *iX - Xth;
