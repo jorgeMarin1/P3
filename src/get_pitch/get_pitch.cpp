@@ -94,7 +94,7 @@ int main(int argc, const char *argv[]) {
       }
   }
 
-  Xth = 0.3 * max;
+  Xth = 0.185 * max;
 
   for(iX= x.begin(); iX < x.end(); iX++){
 
