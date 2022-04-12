@@ -29,6 +29,7 @@ Options:
     -n FLOAT, --umaxr1 FLOAT        Umbral de r1norm [default: 0.25]
     -p FLOAT, --umaxpot FLOAT       Umbral potencia [default: 12]
     -L INT, --median-length INT     Longitud del filtro de mediana [default: 3]
+    -c FLOAT, --cc-height FLOAT     Altura del center clipping [default: 0.185]
     -H, --hamming                   Use the Hamming window
     -h, --help  Show this screen
     --version   Show the version of the project
@@ -55,6 +56,10 @@ int main(int argc, const char *argv[]) {
     float umaxr1 = stof(args["--umaxr1"].asString());
     float umaxpot = stof(args["--umaxpot"].asString());
     int median_length = stoi(args["--median-length"].asString());
+    float cc_height = stof(args["--cc-height"].asString());
+    // Clampe cc_height between 0 and 1
+    cc_height = cc_height < 0.0f ? 0.0f : cc_height;
+    cc_height = cc_height > 1.0f ? 1.0f : cc_height;
     bool use_hamming = args["--hamming"].asBool();
 
   // Read input sound file
@@ -94,7 +99,7 @@ int main(int argc, const char *argv[]) {
       }
   }
 
-  Xth = 0.185 * max;
+  Xth = cc_height * max;
 
   for(iX= x.begin(); iX < x.end(); iX++){
 
