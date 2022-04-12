@@ -81,8 +81,35 @@ int main(int argc, const char *argv[]) {
   /// Preprocess the input signal in order to ease pitch estimation. For instance,
   /// central-clipping or low pass filtering may be used.
   
-  // Iterate for each frame and save values in f0 vector
+  /// Se calcula el umbral del center clipping. Para ello iteramos y buscamos el máximo.
+  /// El umbral será igual al 30% del máxima de la señal.
+  float Xth = 0, max = 0;
+
   vector<float>::iterator iX;
+
+  for(iX= x.begin(); iX < x.end(); it++){
+
+      if(*iX > max){
+          max = *iX;
+      }
+  }
+
+  Xth = 0.3 * max;
+
+  for(iX= x.begin(); iX < x.end(); it++){
+
+      if(*iX > Xth){
+          *iX = *iX - Xth;
+      }else{
+          if(*iX < -1*Xth){
+                *iX = *iX + Xth;
+          }else{
+            *iX = 0;
+          }
+      }
+  }
+
+  // Iterate for each frame and save values in f0 vector
   vector<float> f0;
   for (iX = x.begin(); iX + n_len < x.end(); iX = iX + n_shift) {
     float f = analyzer(iX, iX + n_len);
