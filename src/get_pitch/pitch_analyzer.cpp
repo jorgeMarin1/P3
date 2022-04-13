@@ -10,14 +10,30 @@ using namespace std;
 namespace upc {
   void PitchAnalyzer::autocorrelation(const vector<float> &x, vector<float> &r) const {
     /// \DONE Compute the autocorrelation r[l]
-    for (unsigned int l = 0; l < r.size(); ++l) {
+
+    // Solo calcular el rango de autocorrelacion que se vaya a usar
+    for (unsigned int l = npitch_min; l < npitch_max; ++l) {
         r[l] = 0.0f;
 
         for (unsigned int n = l; n < x.size(); n++) {
             r[l] += x[n]*x[n-l];
         }
 
-        r[l] = r[l] / x.size();
+        r[l] /= x.size();
+    }
+
+    // Como solo se calcula un rango de valores para la autocorrelación, podria
+    // ser que r[0] y r[1] no se calcularan. Por esta razón estos valores se
+    // calculan a parte.
+    if (npitch_min > 0) {
+      for (unsigned int l = 0; l <= 1; l++) {
+        r[l] = 0.0f;
+        for (unsigned int n = l; n < x.size(); n++) {
+          r[l] += x[n]*x[n-l];
+        }
+
+        r[l] /= x.size();
+      }
     }
 
     if (r[0] == 0.0F) //to avoid log() and divide zero 
@@ -91,14 +107,7 @@ namespace upc {
     //Window input frame
     for (unsigned int i=0; i<x.size(); ++i)
       x[i] *= window[i];
-
-    vector<float> r(npitch_max);
-
-    //Compute correlation
-    autocorrelation(x, r);
-
-    vector<float>::const_iterator iR = r.begin(), iRMax = iR;
-
+    
     /// \DONE
     /// Find the lag of the maximum value of the autocorrelation away from the origin.<br>
     /// Choices to set the minimum value of the lag are:
@@ -107,17 +116,21 @@ namespace upc {
     ///    
     /// In either case, the lag should not exceed that of the minimum value of the pitch.
 
+    //Compute correlation
+    vector<float> r(npitch_max);
+    autocorrelation(x, r);
+
+    vector<float>::const_iterator iR = r.begin(), iRMax = iR;
+
     for (iR = iRMax = r.begin() + npitch_min; iR < r.begin() + npitch_max; iR++) {
         if (*iR > *iRMax) {
             iRMax = iR;
         }
     }
 
+    // Compute features
     unsigned int lag = iRMax - r.begin();
-
     float pot = 10 * log10(r[0]);
-
-    // Compute ZCR
     float zcr = compute_zcr(x, samplingFreq);
 
     //You can print these (and other) features, look at them using wavesurfer
