@@ -25,11 +25,11 @@ Usage:
     get_pitch --version
 
 Options:
-    -m FLOAT, --umaxnorm FLOAT      Umbral del máximo de la autocorrelación normalizada [default: 0.445]
-    -n FLOAT, --umaxr1 FLOAT        Umbral de r1norm [default: 0.25]
-    -p FLOAT, --umaxpot FLOAT       Umbral potencia [default: 12]
+    -m FLOAT, --umaxnorm FLOAT      Umbral del máximo de la autocorrelación normalizada [default: 0.39]
+    -n FLOAT, --umaxr1 FLOAT        Umbral de r1norm [default: 0.49]
+    -p FLOAT, --umaxpot FLOAT       Umbral potencia [default: -46]
     -L INT, --median-length INT     Longitud del filtro de mediana [default: 3]
-    -c FLOAT, --cc-height FLOAT     Altura del center clipping [default: 0.185]
+    -c FLOAT, --cc-height FLOAT     Altura del center clipping [default: 0.0]
     -H, --hamming                   Use the Hamming window
     -h, --help  Show this screen
     --version   Show the version of the project
@@ -82,9 +82,9 @@ int main(int argc, const char *argv[]) {
     }
     PitchAnalyzer analyzer(n_len, rate, umaxnorm, umaxr1, umaxpot, window, MIN_F0, MAX_F0);
     
-  /// \TODO
+  /// \DONE
   /// Preprocess the input signal in order to ease pitch estimation. For instance,
-  /// central-clipping or low pass filtering may be used.
+  /// **central-clipping** or low pass filtering may be used.
   
   /// Se calcula el umbral del center clipping. Para ello iteramos y buscamos el máximo.
   /// El umbral será igual al 30% del máxima de la señal.
@@ -102,7 +102,6 @@ int main(int argc, const char *argv[]) {
   Xth = cc_height * max;
 
   for(iX= x.begin(); iX < x.end(); iX++){
-
       if(*iX > Xth){
           *iX = *iX - Xth;
       }else{

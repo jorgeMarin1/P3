@@ -9,9 +9,8 @@ using namespace std;
 /// Name space of UPC
 namespace upc {
   void PitchAnalyzer::autocorrelation(const vector<float> &x, vector<float> &r) const {
-
+    /// \DONE Compute the autocorrelation r[l]
     for (unsigned int l = 0; l < r.size(); ++l) {
-          /// \DONE Compute the autocorrelation r[l]
         r[l] = 0.0f;
 
         for (unsigned int n = l; n < x.size(); n++) {
@@ -22,7 +21,7 @@ namespace upc {
     }
 
     if (r[0] == 0.0F) //to avoid log() and divide zero 
-      r[0] = 1e-10; 
+      r[0] = 1e-10;
   }
 
   void PitchAnalyzer::set_window(Window win_type) {
@@ -61,10 +60,11 @@ namespace upc {
   }
 
   bool PitchAnalyzer::unvoiced(float pot, float r1norm, float rmaxnorm) const {
+    //                unvoiced(pot,       r[1]/r[0],    r[lag]/r[0])
     /// \DONE Implement a rule to decide whether the sound is voiced or not.
     /// * You can use the standard features (pot, r1norm, rmaxnorm),
     ///   or compute and use other ones.
-    return rmaxnorm < m_umaxnorm || r1norm < n_umaxr1; // || zcr < umbral || pot < p_umaxpot
+    return pot < p_umaxpot || r1norm < n_umaxr1 || rmaxnorm < m_umaxnorm;
   }
 
   float PitchAnalyzer::compute_pitch(vector<float> & x) const {
@@ -86,7 +86,7 @@ namespace upc {
     /// Find the lag of the maximum value of the autocorrelation away from the origin.<br>
     /// Choices to set the minimum value of the lag are:
     ///    - The first negative value of the autocorrelation.
-    ///    - The lag corresponding to the maximum value of the pitch.
+    ///    - The lag corresponding to the maximum value of the pitch. **[This]**
     ///    
     /// In either case, the lag should not exceed that of the minimum value of the pitch.
 
