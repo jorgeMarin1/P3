@@ -47,8 +47,17 @@ namespace upc {
     ///
     /// Returns true is the frame is unvoiced
     ///
-    bool unvoiced(float pot, float r1norm, float rmaxnorm) const;
+    bool unvoiced(float pot, float r1norm, float rmaxnorm, float zcr) const;
 
+    ///
+    /// Returns the sign of x (1 if positive, -1 if negative, 0 if 0)
+    ///
+    inline int sign(float x) const;
+
+    ///
+    /// Computes the Zero Crossing Rate (ZCR)
+    ///
+    float compute_zcr(const std::vector<float> &x, float fm) const;
 
   public:
     PitchAnalyzer(  unsigned int fLen,                  ///< Frame length in samples
