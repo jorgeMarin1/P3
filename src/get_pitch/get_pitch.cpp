@@ -88,37 +88,36 @@ int main(int argc, const char *argv[]) {
   
   /// Se calcula el umbral del center clipping. Para ello iteramos y buscamos el máximo.
   /// El umbral será igual al 30% del máxima de la señal.
-  float Xth = 0, max = 0;
+    float Xth = 0, max = 0;
 
-  vector<float>::iterator iX;
+    vector<float>::iterator iX;
 
-  for(iX= x.begin(); iX < x.end(); iX++){
+    for(iX= x.begin(); iX < x.end(); iX++){
+        if(*iX > max){
+            max = *iX;
+        }
+    }
 
-      if(*iX > max){
-          max = *iX;
-      }
-  }
+    Xth = cc_height * max;
 
-  Xth = cc_height * max;
-
-  for(iX= x.begin(); iX < x.end(); iX++){
-      if(*iX > Xth){
-          *iX = *iX - Xth;
-      }else{
-          if(*iX < -1*Xth){
+    for(iX= x.begin(); iX < x.end(); iX++) {
+        if(*iX > Xth) {
+            *iX = *iX - Xth;
+        } else {
+            if(*iX < -1*Xth) {
                 *iX = *iX + Xth;
-          }else{
-            *iX = 0;
-          }
-      }
-  }
+            } else {
+                *iX = 0;
+            }
+        }
+    }
 
-  // Iterate for each frame and save values in f0 vector
-  vector<float> f0;
-  for (iX = x.begin(); iX + n_len < x.end(); iX = iX + n_shift) {
-    float f = analyzer(iX, iX + n_len);
-    f0.push_back(f);
-  }
+    // Iterate for each frame and save values in f0 vector
+    vector<float> f0;
+    for (iX = x.begin(); iX + n_len < x.end(); iX = iX + n_shift) {
+        float f = analyzer(iX, iX + n_len);
+        f0.push_back(f);
+    }
 
     /// \DONE
     /// Postprocess the estimation in order to supress errors. For instance, a
@@ -131,22 +130,19 @@ int main(int argc, const char *argv[]) {
     const int after = (median_length - 1) / 2;
     const int before = (median_length - 1) / 2;
 
-    vector<float> result(f0.size());
+    vector<float> result(f0);
     vector<float> tmp(median_length);
-    vector<float>::iterator it_f0;
-
-    copy(f0.begin(), f0.end(), result.begin());
+    vector<float>::iterator it_res;
 
     int i = before - 1;
-    for (it_f0 = f0.begin() + before - 1; it_f0 < f0.end() - after; it_f0++) {
-        copy(it_f0 - before, it_f0 + after + 1, tmp.begin());
+    for (it_res = result.begin() + before - 1; it_res < result.end() - after; it_res++) {
+        copy(it_res - before, it_res + after + 1, tmp.begin());
         sort(tmp.begin(), tmp.end());
 
-        result[i] = tmp[(median_length - 1) / 2];
+        f0[i] = tmp[(median_length - 1) / 2];
 
         i++;
     }
-    copy(result.begin(), result.end(), f0.begin());
 
   // Write f0 contour into the output file
   ofstream os(output_txt);

@@ -95,7 +95,7 @@ namespace upc {
       if (sign(x[i]) != sign(x[i - 1])) {
         zcr++;
       }
-	  }
+	}
 
     return scaling*zcr;
   }
