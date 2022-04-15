@@ -14,6 +14,35 @@ Ejercicios básicos
   `get_pitch`.
 
    * Complete el cálculo de la autocorrelación e inserte a continuación el código correspondiente.
+   ```c++
+    // Solo calcular el rango de autocorrelacion que se vaya a usar
+    for (unsigned int l = npitch_min; l < npitch_max; ++l) {
+        r[l] = 0.0f;
+
+        for (unsigned int n = l; n < x.size(); n++) {
+            r[l] += x[n]*x[n-l];
+        }
+
+        r[l] /= x.size();
+    }
+
+    // Como solo se calcula un rango de valores para la autocorrelación, podria
+    // ser que r[0] y r[1] no se calcularan. Por esta razón estos valores se
+    // calculan a parte.
+    if (npitch_min > 0) {
+      for (unsigned int l = 0; l <= 1; l++) {
+        r[l] = 0.0f;
+        for (unsigned int n = l; n < x.size(); n++) {
+          r[l] += x[n]*x[n-l];
+        }
+
+        r[l] /= x.size();
+      }
+    }
+
+    if (r[0] == 0.0F) //to avoid log() and divide zero 
+        r[0] = 1e-10;
+   ```
 
    * Inserte una gŕafica donde, en un *subplot*, se vea con claridad la señal temporal de un segmento de
      unos 30 ms de un fonema sonoro y su periodo de pitch; y, en otro *subplot*, se vea con claridad la
@@ -21,6 +50,11 @@ Ejercicios básicos
 
 	 NOTA: es más que probable que tenga que usar Python, Octave/MATLAB u otro programa semejante para
 	 hacerlo. Se valorará la utilización de la biblioteca matplotlib de Python.
+
+     ![](img/rl002.png)
+     **NOTA**: Gráficas hechas con el siguiente script [plotter.py](plotter.py).
+     Este script es una modificación de otro usado en la práctica 1 que era mas
+     generico.
 
    * Determine el mejor candidato para el periodo de pitch localizando el primer máximo secundario de la
      autocorrelación. Inserte a continuación el código correspondiente.
