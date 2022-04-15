@@ -87,20 +87,20 @@ int main(int argc, const char *argv[]) {
   /// **central-clipping** or low pass filtering may be used.
   
   /// Se calcula el umbral del center clipping. Para ello iteramos y buscamos el máximo.
-  /// El umbral será igual al 30% del máxima de la señal.
-    float Xth = 0, max = 0;
+  /// Actualmente cc_height = 0.
+  float Xth = 0, max = 0;
 
     vector<float>::iterator iX;
 
     for(iX= x.begin(); iX < x.end(); iX++){
-        if(*iX > max){
+        if(abs(*iX) > max){
             max = *iX;
         }
     }
 
     Xth = cc_height * max;
 
-    for(iX= x.begin(); iX < x.end(); iX++) {
+    for(iX= x.begin(); iX < x.end(); iX++){
         if(*iX > Xth) {
             *iX = *iX - Xth;
         } else {
