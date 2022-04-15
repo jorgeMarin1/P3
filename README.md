@@ -51,7 +51,7 @@ Ejercicios básicos
 	 NOTA: es más que probable que tenga que usar Python, Octave/MATLAB u otro programa semejante para
 	 hacerlo. Se valorará la utilización de la biblioteca matplotlib de Python.
 
-     ![](img/rl002.png)
+     ![Fichero rl002.wav trama 43](img/rl002.png)
      **NOTA**: Gráficas hechas con el siguiente script [plotter.py](plotter.py).
      Este script es una modificación de otro usado en la práctica 1 que era mas
      generico.
