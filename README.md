@@ -143,6 +143,27 @@ Ejercicios de ampliación
     ```
 
   * Técnicas de postprocesado: filtro de mediana, *dynamic time warping*, etc.
+
+    Hemos decidido implementar in filtro de mediana:
+    ```c++
+    const int after = (median_length - 1) / 2;
+    const int before = (median_length - 1) / 2;
+
+    vector<float> result(f0);
+    vector<float> tmp(median_length);
+    vector<float>::iterator it_res;
+
+    int i = before - 1;
+    for (it_res = result.begin() + before - 1; it_res < result.end() - after; it_res++) {
+        copy(it_res - before, it_res + after + 1, tmp.begin());
+        sort(tmp.begin(), tmp.end());
+
+        f0[i] = tmp[(median_length - 1) / 2];
+
+        i++;
+    }
+    ```
+
   * Métodos alternativos a la autocorrelación: procesado cepstral, *average magnitude difference function*
     (AMDF), etc.
   * Optimización **demostrable** de los parámetros que gobiernan el estimador, en concreto, de los que
