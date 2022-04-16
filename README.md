@@ -61,12 +61,12 @@ Ejercicios básicos
 
    * Implemente la regla de decisión sonoro o sordo e inserte el código correspondiente.
 
-   ```c++
-  bool PitchAnalyzer::unvoiced(float pot, float r1norm, float rmaxnorm, float zcr) const {
+    ```c++
+    bool PitchAnalyzer::unvoiced(float pot, float r1norm, float rmaxnorm, float zcr) const {
     
-    return pot < p_umaxpot || r1norm < n_umaxr1 || rmaxnorm < m_umaxnorm;
-  }
-   ```
+      return pot < p_umaxpot || r1norm < n_umaxr1 || rmaxnorm < m_umaxnorm;
+    }
+    ```
 
 - Una vez completados los puntos anteriores, dispondrá de una primera versión del estimador de pitch. El 
   resto del trabajo consiste, básicamente, en obtener las mejores prestaciones posibles con él.
@@ -114,6 +114,34 @@ Ejercicios de ampliación
   Entre las posibles mejoras, puede escoger una o más de las siguientes:
 
   * Técnicas de preprocesado: filtrado paso bajo, diezmado, *center clipping*, etc.
+
+    En este caso hemos optado por implementar el center clipping de la siguiente forma:
+    ```c++
+    float Xth = 0, max = 0;
+
+    vector<float>::iterator iX;
+
+    for(iX= x.begin(); iX < x.end(); iX++){
+        if(abs(*iX) > max){
+            max = *iX;
+        }
+    }
+
+    Xth = cc_height * max;
+
+    for(iX= x.begin(); iX < x.end(); iX++){
+        if(*iX > Xth) {
+            *iX = *iX - Xth;
+        } else {
+            if(*iX < -1*Xth) {
+                *iX = *iX + Xth;
+            } else {
+                *iX = 0;
+            }
+        }
+    }
+    ```
+
   * Técnicas de postprocesado: filtro de mediana, *dynamic time warping*, etc.
   * Métodos alternativos a la autocorrelación: procesado cepstral, *average magnitude difference function*
     (AMDF), etc.
