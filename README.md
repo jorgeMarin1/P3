@@ -61,12 +61,12 @@ Ejercicios básicos
 
    * Implemente la regla de decisión sonoro o sordo e inserte el código correspondiente.
 
-    ```c++
-    bool PitchAnalyzer::unvoiced(float pot, float r1norm, float rmaxnorm, float zcr) const {
+      ```c++
+      bool PitchAnalyzer::unvoiced(float pot, float r1norm, float rmaxnorm, float zcr) const {
     
-      return pot < p_umaxpot || r1norm < n_umaxr1 || rmaxnorm < m_umaxnorm;
-    }
-    ```
+        return pot < p_umaxpot || r1norm < n_umaxr1 || rmaxnorm < m_umaxnorm;
+      }
+      ```
 
 - Una vez completados los puntos anteriores, dispondrá de una primera versión del estimador de pitch. El 
   resto del trabajo consiste, básicamente, en obtener las mejores prestaciones posibles con él.
