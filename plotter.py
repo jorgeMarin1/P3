@@ -7,7 +7,7 @@ import matplotlib.pyplot as plt
 import numpy as np
 
 # Some options
-SAVE_IMAGE = True
+SAVE_IMAGE = False
 SEPARATOR_CHAR = '\t'
 
 # Prints explains how to use the script, kinda...
@@ -55,21 +55,29 @@ def plotter(filenames: List[str]) -> None:
             
             dataR = np.vstack((dataR, np.array(nums)))
 
+    # Find pitch estimation
+    min_idx = np.argmin(dataR[:, 1])
+    max_idx = np.argmax(dataR[min_idx:, 1])
+    idx = min_idx + max_idx
+
     # Plot data
     fig, axs = plt.subplots(2, 1)
+    dataX[:, 0] *= 1e3  # s to ms
     axs[0].plot(dataX[:, 0], dataX[:, 1])
     axs[0].set_xlim((dataX[:, 0][0], dataX[:, 0][-1]))
-    axs[0].set_xlabel('Tiempo [s]')
+    axs[0].set_xlabel('Tiempo [ms]')
     axs[0].set_ylabel('Amplitud')
     axs[0].grid(which='both', color='#777777', linestyle=':', linewidth=0.5)
 
     axs[1].plot(dataR[:, 0], dataR[:, 1])
+    axs[1].plot(dataR[idx, 0], dataR[idx, 1], 'ro', label='Estimación pitch (k={})'.format(idx))
     axs[1].set_xlim((dataR[:, 0][0], dataR[:, 0][-1]))
     axs[1].set_xlabel('Coeficiente k')
     axs[1].set_ylabel('Autocorrelación')
     axs[1].grid(which='both', color='#777777', linestyle=':', linewidth=0.5)
 
     fig.tight_layout()
+    plt.legend()
 
     # Save plot to PNG file
     if SAVE_IMAGE:

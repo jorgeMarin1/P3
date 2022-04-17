@@ -51,19 +51,31 @@ Ejercicios básicos
 	 NOTA: es más que probable que tenga que usar Python, Octave/MATLAB u otro programa semejante para
 	 hacerlo. Se valorará la utilización de la biblioteca matplotlib de Python.
 
-     ![Fichero rl002.wav trama 43](img/rl002.png)
+     ![Fichero rl014.wav trama 23](img/rl014.png)
      **NOTA**: Gráficas hechas con el siguiente script [plotter.py](plotter.py).
      Este script es una modificación de otro usado en la práctica 1 que era mas
      generico.
 
    * Determine el mejor candidato para el periodo de pitch localizando el primer máximo secundario de la
      autocorrelación. Inserte a continuación el código correspondiente.
+     ```c++
+     //Compute correlation
+     vector<float> r(npitch_max);
+     autocorrelation(x, r);
+ 
+     vector<float>::const_iterator iR = r.begin(), iRMax = iR;
+ 
+     for (iR = iRMax = r.begin() + npitch_min; iR < r.begin() + npitch_max; iR++) {
+         if (*iR > *iRMax) {
+             iRMax = iR;
+         }
+     }
+     ```
 
    * Implemente la regla de decisión sonoro o sordo e inserte el código correspondiente.
 
       ```c++
       bool PitchAnalyzer::unvoiced(float pot, float r1norm, float rmaxnorm, float zcr) const {
-    
         return pot < p_umaxpot || r1norm < n_umaxr1 || rmaxnorm < m_umaxnorm;
       }
       ```
@@ -146,7 +158,7 @@ Ejercicios de ampliación
 
   * Técnicas de postprocesado: filtro de mediana, *dynamic time warping*, etc.
 
-    Hemos decidido implementar in filtro de mediana:
+    Hemos decidido implementar el **filtro de mediana**:
     ```c++
     const int after = (median_length - 1) / 2;
     const int before = (median_length - 1) / 2;
