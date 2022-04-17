@@ -51,8 +51,8 @@ Ejercicios básicos
 	 NOTA: es más que probable que tenga que usar Python, Octave/MATLAB u otro programa semejante para
 	 hacerlo. Se valorará la utilización de la biblioteca matplotlib de Python.
 
-     ![Fichero rl014.wav trama 23](img/rl014.png)
-     **NOTA**: Gráficas hechas con el siguiente script [plotter.py](plotter.py).
+     ![Fichero rl014.wav trama 23](img/rl014_autocorrelation.png)
+     **NOTA**: Gráficas hechas con el siguiente script [plot_autocorrelation.py](plot_autocorrelation.py).
      Este script es una modificación de otro usado en la práctica 1 que era mas
      generico.
 
@@ -96,16 +96,23 @@ Ejercicios básicos
 	    Recuerde configurar los paneles de datos para que el desplazamiento de ventana sea el adecuado, que
 		en esta práctica es de 15 ms.
 
+        **TODO**
+
       - Use el estimador de pitch implementado en el programa `wavesurfer` en una señal de prueba y compare
 	    su resultado con el obtenido por la mejor versión de su propio sistema.  Inserte una gráfica
 		ilustrativa del resultado de ambos estimadores.
      
 		Aunque puede usar el propio Wavesurfer para obtener la representación, se valorará
 	 	el uso de alternativas de mayor calidad (particularmente Python).
+
+        ![rl0014.wav pitch](img/rl014_pitch.png)
+        **NOTA**: Gráficas hechas con el siguiente script [plot_pitch.py](plot_pitch.py).
   
   * Optimice los parámetros de su sistema de estimación de pitch e inserte una tabla con las tasas de error
     y el *score* TOTAL proporcionados por `pitch_evaluate` en la evaluación de la base de datos 
-	`pitch_db/train`..
+	`pitch_db/train`.
+
+    ![Final score](img/final_score.png)
 
 Ejercicios de ampliación
 ------------------------
@@ -185,6 +192,9 @@ Ejercicios de ampliación
 
   * Optimización **demostrable** de los parámetros que gobiernan el estimador, en concreto, de los que
     gobiernan la decisión sonoro/sordo.
+
+    Valores optimos encontrados con: [get_all_coefs.py](opt_scripts/get_all_coefs.py)
+
   * Cualquier otra técnica que se le pueda ocurrir o encuentre en la literatura.
 
   Encontrará más información acerca de estas técnicas en las [Transparencias del Curso](https://atenea.upc.edu/pluginfile.php/2908770/mod_resource/content/3/2b_PS%20Techniques.pdf)
