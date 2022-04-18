@@ -140,6 +140,29 @@ Ejercicios de ampliación
 
   * Técnicas de preprocesado: filtrado paso bajo, diezmado, *center clipping*, etc.
 
+  * Técnicas de postprocesado: filtro de mediana, *dynamic time warping*, etc.
+
+  * Métodos alternativos a la autocorrelación: procesado cepstral, *average magnitude difference function*
+    (AMDF), etc.
+
+  * Optimización **demostrable** de los parámetros que gobiernan el estimador, en concreto, de los que
+    gobiernan la decisión sonoro/sordo.
+
+  * Cualquier otra técnica que se le pueda ocurrir o encuentre en la literatura.
+
+  Encontrará más información acerca de estas técnicas en las [Transparencias del Curso](https://atenea.upc.edu/pluginfile.php/2908770/mod_resource/content/3/2b_PS%20Techniques.pdf)
+  y en [Spoken Language Processing](https://discovery.upc.edu/iii/encore/record/C__Rb1233593?lang=cat).
+  También encontrará más información en los anexos del enunciado de esta práctica.
+
+  Incluya, a continuación, una explicación de las técnicas incorporadas al estimador. Se valorará la
+  inclusión de gráficas, tablas, código o cualquier otra cosa que ayude a comprender el trabajo realizado.
+
+  También se valorará la realización de un estudio de los parámetros involucrados. Por ejemplo, si se opta
+  por implementar el filtro de mediana, se valorará el análisis de los resultados obtenidos en función de
+  la longitud del filtro.
+   
+   ### Preprocesado: Center-Clipping
+
     En este caso hemos optado por implementar el center clipping de la siguiente forma:
     ```c++
     float Xth = 0, max = 0;
@@ -167,9 +190,9 @@ Ejercicios de ampliación
     }
     ```
 
-  * Técnicas de postprocesado: filtro de mediana, *dynamic time warping*, etc.
+    ### Postprocesado: Filtro de mediana
 
-    Hemos decidido implementar el **filtro de mediana**:
+    Hemos decidido implementar un **filtro de mediana** de longitud variable:
     ```c++
     const int after = (median_length - 1) / 2;
     const int before = (median_length - 1) / 2;
@@ -188,30 +211,6 @@ Ejercicios de ampliación
         i++;
     }
     ```
-
-  * Métodos alternativos a la autocorrelación: procesado cepstral, *average magnitude difference function*
-    (AMDF), etc.
-
-    *No implementado*
-
-  * Optimización **demostrable** de los parámetros que gobiernan el estimador, en concreto, de los que
-    gobiernan la decisión sonoro/sordo.
-
-    Valores optimos encontrados con: [get_all_coefs.py](opt_scripts/get_all_coefs.py)
-
-  * Cualquier otra técnica que se le pueda ocurrir o encuentre en la literatura.
-
-  Encontrará más información acerca de estas técnicas en las [Transparencias del Curso](https://atenea.upc.edu/pluginfile.php/2908770/mod_resource/content/3/2b_PS%20Techniques.pdf)
-  y en [Spoken Language Processing](https://discovery.upc.edu/iii/encore/record/C__Rb1233593?lang=cat).
-  También encontrará más información en los anexos del enunciado de esta práctica.
-
-  Incluya, a continuación, una explicación de las técnicas incorporadas al estimador. Se valorará la
-  inclusión de gráficas, tablas, código o cualquier otra cosa que ayude a comprender el trabajo realizado.
-
-  También se valorará la realización de un estudio de los parámetros involucrados. Por ejemplo, si se opta
-  por implementar el filtro de mediana, se valorará el análisis de los resultados obtenidos en función de
-  la longitud del filtro.
-   
 
 Evaluación *ciega* del estimador
 -------------------------------
