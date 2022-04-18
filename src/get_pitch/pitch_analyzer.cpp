@@ -4,6 +4,8 @@
 #include <math.h>
 #include "pitch_analyzer.h"
 
+//#define FRAME_PLOT 23
+
 using namespace std;
 
 /// Name space of UPC
@@ -35,6 +37,23 @@ namespace upc {
         r[l] /= x.size();
       }
     }
+
+    #ifdef FRAME_PLOT
+    static int frame = 0;
+    const bool plot_signal = false; // señal o autocorrelación
+    if (frame == FRAME_PLOT) {
+        if (plot_signal) {
+            for (unsigned int i = 0; i < x.size(); i++) {
+                printf("%f\t%f\n", (float)i / samplingFreq, x[i]);
+            }
+        } else {
+            for (unsigned int i = 0; i < r.size(); i++) {
+                printf("%u\t%f\n", i, r[i]);
+            }
+        }
+    }
+    frame++;
+    #endif
 
     if (r[0] == 0.0F) //to avoid log() and divide zero 
       r[0] = 1e-10;
