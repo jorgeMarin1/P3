@@ -56,9 +56,11 @@ def plotter(filenames: List[str]) -> None:
             dataR = np.vstack((dataR, np.array(nums)))
 
     # Find pitch estimation
+    sampling_freq = 1 / (dataX[1, 0] - dataX[0, 0])
     min_idx = np.argmin(dataR[:, 1])
     max_idx = np.argmax(dataR[min_idx:, 1])
     idx = min_idx + max_idx
+    f0 = sampling_freq / idx
 
     # Plot data
     fig, axs = plt.subplots(2, 1)
@@ -70,7 +72,7 @@ def plotter(filenames: List[str]) -> None:
     axs[0].grid(which='both', color='#777777', linestyle=':', linewidth=0.5)
 
     axs[1].plot(dataR[:, 0], dataR[:, 1])
-    axs[1].plot(dataR[idx, 0], dataR[idx, 1], 'ro', label='Estimación pitch (k={})'.format(idx))
+    axs[1].plot(dataR[idx, 0], dataR[idx, 1], 'ro', label='Pitch est. (k={}, f0={:.0f} Hz)'.format(idx, f0))
     axs[1].set_xlim((dataR[:, 0][0], dataR[:, 0][-1]))
     axs[1].set_xlabel('Coeficiente k')
     axs[1].set_ylabel('Autocorrelación')
